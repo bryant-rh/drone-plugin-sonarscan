@@ -1,0 +1,27 @@
+# 这里我们使用命令来深度定制我们的扫描，而不是使用drone sonar plugin
+- name: sonar-scan
+  image: newtmitch/sonar-scanner:4.0.0-alpine
+  environment:
+    SONAR_TOKEN:
+      from_secret: sonar_token
+   # GITHUB_ACCESS_TOKEN_FOR_SONARQUBE:
+   #   from_secret: github_access_token_for_sonarqube
+  commands:
+  - >
+    sonar-scanner
+    -Dsonar.host.url=http://sonarqube.cechealth.cn/
+    -Dsonar.login=$$SONAR_TOKEN
+    -Dsonar.projectKey=${DRONE_REPO_NAME}
+    -Dsonar.projectName=${DRONE_REPO_NAME}
+    -Dsonar.projectVersion=${DRONE_BUILD_NUMBER}
+    -Dsonar.sources=src/main/java
+    -Dsonar.language=java
+    -Dsonar.java.coveragePlugin=jacoco
+    -Dsonar.projectBaseDir=/drone/src
+    -Dsonar.java.binaries=target
+    -X
+  when:
+##    event:
+#    - pull_request
+    branch:
+    - master
