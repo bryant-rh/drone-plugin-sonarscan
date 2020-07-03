@@ -9,7 +9,7 @@
   commands:
   - >
     sonar-scanner
-    -Dsonar.host.url=http://sonarqube.cechealth.cn/
+    -Dsonar.host.url=http://sonarqube/
     -Dsonar.login=$$SONAR_TOKEN
     -Dsonar.projectKey=${DRONE_REPO_NAME}
     -Dsonar.projectName=${DRONE_REPO_NAME}
